@@ -1,0 +1,7 @@
+{
+  "name": "Mikaelian - Mi Tatua",
+  "description": "Premium portfolio for tattoo artist Mikaelian featuring 3D elements, smooth scrolling, and AI-powered concept generation.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}
