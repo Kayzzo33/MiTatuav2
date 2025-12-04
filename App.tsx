@@ -195,6 +195,7 @@ const ProductGalleryOverlay: React.FC<{ isOpen: boolean, onClose: () => void }> 
                                         alt={product.title} 
                                         className="w-full h-full object-cover transition-transform duration-700 md:group-hover:scale-110"
                                         loading="lazy"
+                                        decoding="async"
                                     />
                                     {/* Removed backdrop-blur on mobile for performance */}
                                     <div className="absolute top-4 left-4 bg-black/80 md:backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider text-white border border-white/10">
@@ -364,11 +365,12 @@ const Card: React.FC<{ item: typeof PORTFOLIO_ITEMS[0] }> = ({ item }) => (
             <img 
                 src={item.img} 
                 alt={item.title} 
-                className="h-full w-full object-cover transition-transform duration-700 md:group-hover:scale-110 grayscale md:group-hover:grayscale-0"
+                className="h-full w-full object-cover transition-transform duration-700 md:group-hover:scale-110 grayscale-0 md:grayscale md:group-hover:grayscale-0"
                 loading="lazy"
+                decoding="async"
             />
         </div>
-        <div className="absolute inset-0 flex flex-col justify-end p-6 opacity-0 transition-opacity duration-500 md:group-hover:opacity-100 bg-gradient-to-t from-black/90 to-transparent">
+        <div className="absolute inset-0 flex flex-col justify-end p-6 opacity-0 transition-opacity duration-500 group-hover:opacity-100 bg-gradient-to-t from-black/90 to-transparent">
             <span className="text-orange-500 text-xs font-bold uppercase tracking-widest">{item.category}</span>
             <h3 className="font-display text-2xl text-white">{item.title}</h3>
         </div>

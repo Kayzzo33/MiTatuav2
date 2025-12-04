@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, ReactNode, ErrorInfo, Component } from 'react';
+import React, { useRef, useEffect, ReactNode, ErrorInfo, useState } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { Environment, Float, useGLTF } from '@react-three/drei';
 import * as THREE from 'three';
@@ -54,7 +54,7 @@ interface ErrorBoundaryState {
   hasError: boolean;
 }
 
-class ModelErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
+class ModelErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundaryState> {
   public state: ErrorBoundaryState = { hasError: false };
 
   static getDerivedStateFromError(error: Error): ErrorBoundaryState {
@@ -74,6 +74,23 @@ class ModelErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryStat
 }
 
 const ThreeLogo: React.FC = () => {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    // Detect mobile screen width to disable heavy 3D rendering
+    // This prevents memory crashes (White Screen) on iOS Safari
+    const checkMobile = () => {
+        setIsMobile(window.innerWidth < 768);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  // Return null on mobile to save memory and prevent crashes
+  if (isMobile) return null;
+
   return (
     <div className="w-full h-full absolute inset-0 pointer-events-none z-0">
       <Canvas camera={{ position: [0, 0, 6], fov: 35 }} gl={{ antialias: true, alpha: true }}>
