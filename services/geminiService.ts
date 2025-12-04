@@ -1,39 +1,42 @@
 import { GoogleGenAI } from "@google/genai";
 
-// Function to call Gemini API
-export const generateTattooConcept = async (userIdea: string, style: string) => {
-  try {
-    // Initialize Gemini INSIDE the function to prevent build crashes
-    // Using process.env.API_KEY directly as per @google/genai guidelines
-    const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
-    
-    const model = 'gemini-2.5-flash';
-    const prompt = `
-      You are a world-class tattoo artist assistant named "Mi AI".
-      The user wants a tattoo concept based on this idea: "${userIdea}".
-      The preferred style is: "${style}".
-      
-      Please provide a creative, artistic description of a tattoo design that combines these elements.
-      Keep the tone mysterious, artistic, and professional. 
-      Structure the response as:
-      1. Visual Imagery (What it looks like)
-      2. Symbolic Meaning (The deeper story)
-      3. Placement Suggestion (Where it fits best on the body)
-      
-      Keep it under 150 words. Translate the response to Portuguese (Brazil).
-    `;
+/**
+ * Generates a creative tattoo concept based on the user's idea and preferred style.
+ * Uses the Gemini Flash model for fast and creative text generation.
+ * 
+ * @param idea - The user's description of their tattoo idea.
+ * @param style - The preferred artistic style (e.g., Fineline, Blackwork).
+ * @returns A promise that resolves to the generated concept text or null if an error occurs.
+ */
+export const generateTattooConcept = async (idea: string, style: string): Promise<string | null> => {
+  const apiKey = process.env.API_KEY;
 
+  if (!apiKey) {
+    console.warn("API Key is missing. AI features will be disabled.");
+    return null;
+  }
+
+  try {
+    const ai = new GoogleGenAI({ apiKey });
+
+    // Using gemini-2.5-flash as recommended for text tasks.
     const response = await ai.models.generateContent({
-      model: model,
-      contents: prompt,
-      config: {
-        thinkingConfig: { thinkingBudget: 0 } // Flash tasks don't need thinking
-      }
+      model: 'gemini-2.5-flash',
+      contents: `
+        Você é a 'Mi AI', uma consultora virtual de tatuagem especializada no estúdio Mikaelian.
+        Seu tom é artístico, empático e profissional.
+        
+        O cliente deseja uma tatuagem com a seguinte ideia: "${idea}"
+        Estilo preferido: "${style}"
+        
+        Crie um conceito curto e inspirador (máximo de 150 palavras) descrevendo como essa tatuagem poderia ser visualizada na pele, sugerindo elementos de composição que valorizem o estilo escolhido.
+        Responda em português.
+      `,
     });
 
     return response.text;
   } catch (error) {
-    console.error("Gemini generation error:", error);
-    return "Os espíritos estão silenciosos agora. Verifique sua chave de API ou tente novamente mais tarde.";
+    console.error("Error generating tattoo concept:", error);
+    return null;
   }
 };

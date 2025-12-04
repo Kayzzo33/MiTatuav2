@@ -1,12 +1,12 @@
+
 import React, { useEffect, useRef, useLayoutEffect, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Instagram, Mail, Phone, Menu, ArrowUpRight, ArrowLeft, ShoppingBag, X } from 'lucide-react';
+import { Instagram, Mail, Phone, Menu, ArrowUpRight, ArrowLeft, ShoppingBag, X, Beaker } from 'lucide-react';
 
 import CustomCursor from './components/CustomCursor';
 import MusicPlayer from './components/MusicPlayer';
 import ThreeLogo from './components/ThreeLogo';
-import AIConsultant from './components/AIConsultant';
 import { PORTFOLIO_ITEMS, ARTIST_PHOTO, CUSTOM_PRODUCTS, COLORS } from './constants';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -456,6 +456,20 @@ const Works = () => {
     );
 };
 
+// --- Labs / Future Section Placeholder ---
+const Labs = () => {
+    return (
+        <section id="lab" className="py-24 bg-zinc-950 flex items-center justify-center border-t border-white/5 relative overflow-hidden">
+             <div className="absolute inset-0 bg-orange-500/5 blur-[100px] rounded-full pointer-events-none" />
+             <div className="text-center z-10">
+                <Beaker className="w-12 h-12 mx-auto text-orange-500 mb-4 opacity-50" />
+                <h3 className="text-2xl font-display font-bold text-white mb-2">LABORATÓRIO CRIATIVO</h3>
+                <p className="text-gray-500 uppercase tracking-widest text-xs">Em breve</p>
+             </div>
+        </section>
+    );
+};
+
 const Footer = () => {
     return (
         <footer id="contact" className="relative bg-black min-h-[80vh] flex flex-col justify-between pt-20 overflow-hidden">
@@ -532,9 +546,7 @@ const App: React.FC = () => {
                 <About />
                 <CustomProductsTeaser onOpen={() => setShowProducts(true)} />
                 <Works />
-                <div id="lab">
-                    <AIConsultant />
-                </div>
+                <Labs />
                 <Footer />
             </main>
 
