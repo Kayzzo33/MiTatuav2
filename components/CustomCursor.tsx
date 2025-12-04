@@ -5,12 +5,23 @@ const CustomCursor: React.FC = () => {
   const cursorRef = useRef<HTMLDivElement>(null);
   const [isHovering, setIsHovering] = useState(false);
   const [hoverText, setHoverText] = useState("");
+  const [isTouchDevice, setIsTouchDevice] = useState(false);
 
   useEffect(() => {
+    // Detect touch device (Mobile/Tablet)
+    // If it's a touch device, we disable the custom cursor logic entirely
+    const checkTouch = () => {
+       return 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+    };
+
+    if (checkTouch()) {
+        setIsTouchDevice(true);
+        return; // Stop execution if mobile
+    }
+
     const handleMouseMove = (e: MouseEvent) => {
       const { clientX, clientY } = e;
       
-      // Direct update for responsiveness
       if (cursorRef.current) {
         gsap.to(cursorRef.current, {
           x: clientX,
@@ -42,10 +53,13 @@ const CustomCursor: React.FC = () => {
     };
   }, []);
 
+  // Do not render anything on mobile/tablet
+  if (isTouchDevice) return null;
+
   return (
     <div 
       ref={cursorRef} 
-      className="fixed top-0 left-0 pointer-events-none z-[9999] -translate-x-1/2 -translate-y-1/2 flex items-center justify-center mix-blend-difference"
+      className="fixed top-0 left-0 pointer-events-none z-[9999] -translate-x-1/2 -translate-y-1/2 flex items-center justify-center mix-blend-difference hidden md:flex"
     >
       <div className={`transition-all duration-300 ${isHovering ? 'scale-100 opacity-100' : 'scale-0 opacity-0'}`}>
           <span className="text-[10px] font-bold text-black bg-white px-2 py-1 rounded-full uppercase tracking-widest whitespace-nowrap">

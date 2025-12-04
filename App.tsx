@@ -128,7 +128,7 @@ const CustomProductsTeaser: React.FC<{ onOpen: () => void }> = ({ onOpen }) => {
                     </button>
                 </div>
                 
-                <div className="md:w-1/2 relative h-[400px] w-full group hover-target" onClick={onOpen}>
+                <div className="md:w-1/2 relative h-[400px] w-full group hover-target cursor-pointer" onClick={onOpen}>
                      <div className="absolute inset-0 bg-gradient-to-tr from-orange-500/20 to-transparent rounded-lg transform rotate-3 group-hover:rotate-6 transition-transform duration-500"></div>
                      <div className="absolute inset-0 bg-zinc-900 overflow-hidden rounded-lg border border-white/10">
                         <img 
@@ -161,10 +161,10 @@ const ProductGalleryOverlay: React.FC<{ isOpen: boolean, onClose: () => void }> 
 
     return (
         <div 
-            className={`fixed inset-0 z-[100] bg-[#0a0a0a] transition-all duration-700 ease-in-out ${isOpen ? 'translate-y-0 opacity-100' : 'translate-y-[100%] opacity-0 pointer-events-none'}`}
+            className={`fixed inset-0 z-[100] bg-[#0a0a0a] transition-all duration-700 ease-in-out will-change-transform ${isOpen ? 'translate-y-0 opacity-100' : 'translate-y-[100%] opacity-0 pointer-events-none'}`}
         >
             {/* Header */}
-            <div className="absolute top-0 left-0 w-full p-8 flex justify-between items-center z-20 bg-gradient-to-b from-black/80 to-transparent">
+            <div className="absolute top-0 left-0 w-full p-8 flex justify-between items-center z-20 bg-gradient-to-b from-black/90 to-transparent">
                 <button onClick={onClose} className="flex items-center gap-3 text-white hover:text-orange-500 transition-colors hover-target group">
                     <div className="w-10 h-10 border border-white/20 rounded-full flex items-center justify-center group-hover:border-orange-500 transition-colors">
                         <ArrowLeft size={18} />
@@ -188,14 +188,16 @@ const ProductGalleryOverlay: React.FC<{ isOpen: boolean, onClose: () => void }> 
 
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 pb-20">
                         {CUSTOM_PRODUCTS.map((product) => (
-                            <div key={product.id} className="group flex flex-col bg-zinc-900/50 border border-white/5 rounded-xl overflow-hidden hover:border-orange-500/30 transition-all duration-300 hover:-translate-y-2">
+                            <div key={product.id} className="group flex flex-col bg-zinc-900/50 border border-white/5 rounded-xl overflow-hidden hover:border-orange-500/30 transition-all duration-300 md:hover:-translate-y-2">
                                 <div className="aspect-square overflow-hidden relative">
                                     <img 
                                         src={product.img} 
                                         alt={product.title} 
-                                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                                        className="w-full h-full object-cover transition-transform duration-700 md:group-hover:scale-110"
+                                        loading="lazy"
                                     />
-                                    <div className="absolute top-4 left-4 bg-black/60 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider text-white border border-white/10">
+                                    {/* Removed backdrop-blur on mobile for performance */}
+                                    <div className="absolute top-4 left-4 bg-black/80 md:backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider text-white border border-white/10">
                                         {product.category}
                                     </div>
                                 </div>
@@ -229,6 +231,10 @@ const Hero = () => {
     const spotlightRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
+        // Spotlight effect only on desktop/mouse devices
+        const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+        if (isTouch) return;
+
         const handleMouseMove = (e: MouseEvent) => {
             if (spotlightRef.current) {
                 document.documentElement.style.setProperty('--mouse-x', `${e.clientX}px`);
@@ -250,6 +256,7 @@ const Hero = () => {
                     className="absolute inset-0 grid grid-cols-3 md:grid-cols-4 gap-0 opacity-40 pointer-events-none mix-blend-screen"
                     style={{
                         background: '#111',
+                        // Adjusted mask for mobile: shows full grid faintly instead of mouse reveal
                         maskImage: 'radial-gradient(circle 300px at var(--mouse-x, 50%) var(--mouse-y, 50%), black 0%, transparent 100%)',
                         WebkitMaskImage: 'radial-gradient(circle 300px at var(--mouse-x, 50%) var(--mouse-y, 50%), black 0%, transparent 100%)',
                     }}
@@ -352,20 +359,20 @@ const About = () => {
 };
 
 const Card: React.FC<{ item: typeof PORTFOLIO_ITEMS[0] }> = ({ item }) => (
-    <div className="group relative mb-8 overflow-hidden rounded-sm hover-target cursor-none" data-cursor-text="EXPANDIR">
+    <div className="group relative mb-8 overflow-hidden rounded-sm hover-target md:cursor-none cursor-auto" data-cursor-text="EXPANDIR">
         <div className="aspect-[3/4] overflow-hidden bg-zinc-900">
             <img 
                 src={item.img} 
                 alt={item.title} 
-                className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0"
+                className="h-full w-full object-cover transition-transform duration-700 md:group-hover:scale-110 grayscale md:group-hover:grayscale-0"
                 loading="lazy"
             />
         </div>
-        <div className="absolute inset-0 flex flex-col justify-end p-6 opacity-0 transition-opacity duration-500 group-hover:opacity-100 bg-gradient-to-t from-black/90 to-transparent">
+        <div className="absolute inset-0 flex flex-col justify-end p-6 opacity-0 transition-opacity duration-500 md:group-hover:opacity-100 bg-gradient-to-t from-black/90 to-transparent">
             <span className="text-orange-500 text-xs font-bold uppercase tracking-widest">{item.category}</span>
             <h3 className="font-display text-2xl text-white">{item.title}</h3>
         </div>
-        <div className="absolute inset-0 border border-white/20 opacity-0 transition-opacity duration-300 group-hover:opacity-100 pointer-events-none"></div>
+        <div className="absolute inset-0 border border-white/20 opacity-0 transition-opacity duration-300 md:group-hover:opacity-100 pointer-events-none"></div>
     </div>
 );
 

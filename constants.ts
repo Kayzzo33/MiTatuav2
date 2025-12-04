@@ -1,4 +1,5 @@
 
+
 export const COLORS = {
   background: '#0a0a0a',
   backgroundSec: '#1a1a1a',
@@ -20,24 +21,56 @@ export const PLAYLIST = [
 
 export const ARTIST_PHOTO = "https://drive.google.com/thumbnail?id=1Tt-uodV4ILmN8el6LKkSITsdZBbySPf4&sz=w1000";
 
+// Ordered to match visual columns:
+// Index 0, 3, 6, 9, 12, 15 -> Column 1 (Left)
+// Index 1, 4, 7, 10, 13, 16 -> Column 2 (Center)
+// Index 2, 5, 8, 11, 14 -> Column 3 (Right)
 export const PORTFOLIO_ITEMS = [
-  { id: 1, title: "Demônio Cibernético", category: "Blackwork", img: "https://drive.google.com/thumbnail?id=1I0_G-iDHvG1zmGdYtzLoFKgmPqWeCrXB&sz=w1000" },
-  { id: 2, title: "Conexão Neural", category: "Fineline", img: "https://drive.google.com/thumbnail?id=1QB3ycDytvayvbAZFu0K5eIpmX4ajGpS-&sz=w1000" },
-  { id: 3, title: "Fluxo Abstrato", category: "Abstrato", img: "https://drive.google.com/thumbnail?id=1OtUDECPHCq1Vud0lwGZTzmFigmPZDC2f&sz=w1000" },
-  { id: 4, title: "Mente Geométrica", category: "Geek", img: "https://drive.google.com/thumbnail?id=1-kYwdUyTSabyBnn4QiEL6lnKuZDcXGpI&sz=w1000" },
-  { id: 5, title: "Observador Silencioso", category: "Realismo", img: "https://drive.google.com/thumbnail?id=1kqAC14sVOuPQOueuUZATUbVs7HNXtjFI&sz=w1000" },
-  { id: 6, title: "Neon Genesis", category: "Anime", img: "https://drive.google.com/thumbnail?id=1LSaRQsfybr1nuzv5he21LY1dzZWkhDQk&sz=w1000" },
-  { id: 7, title: "Matéria Escura", category: "Blackwork", img: "https://drive.google.com/thumbnail?id=1PV6Pd2gFWw5cWOPPpiQgEngBY2xcThsJ&sz=w1000" },
-  { id: 8, title: "Etéreo", category: "Fineline", img: "https://drive.google.com/thumbnail?id=1BejVBi_bLhyAaVncCIWDupoavjWWBenc&sz=w1000" },
-  { id: 9, title: "Glitch Realidade", category: "Geek", img: "https://drive.google.com/thumbnail?id=1VuilkB5jsK9pTHK_EuFq9m0Z5nzp60ZA&sz=w1000" },
-  { id: 10, title: "Viajante do Vazio", category: "Blackwork", img: "https://drive.google.com/thumbnail?id=1gVLGLLY635-ZwXDmDZJxznKQPbdi9zyo&sz=w1000" },
-  { id: 11, title: "Synthwave", category: "Colorido", img: "https://drive.google.com/thumbnail?id=1bpxOZMWTvVUelt6aVq9aAUedzlrOz9Us&sz=w1000" },
-  { id: 12, title: "Alma Digital", category: "Abstrato", img: "https://drive.google.com/thumbnail?id=1gUD6xHfKe2apQ6ZxAOB_zTAuDo_ERzSb&sz=w1000" },
-  { id: 13, title: "Código Matrix", category: "Geek", img: "https://drive.google.com/thumbnail?id=1i9Usaw3bgT8EwN9opvpRaPpjw9rHWjgf&sz=w1000" },
-  { id: 14, title: "Poeira Estelar", category: "Fineline", img: "https://drive.google.com/thumbnail?id=15qMTfKpMYhf1Ldu3qZ5fxOyszpZXv1P8&sz=w1000" },
-  { id: 15, title: "Horror Cósmico", category: "Dark", img: "https://drive.google.com/thumbnail?id=13nkUOn6cTbQAn9mZIc3bzAnDxIkY2Xie&sz=w1000" },
-  { id: 16, title: "Coração Binário", category: "Cyber", img: "https://drive.google.com/thumbnail?id=1O_9tvuXQcK32uG9-byl57wgxKo3qjp6t&sz=w1000" },
-  { id: 17, title: "Disjuntor", category: "Geek", img: "https://drive.google.com/thumbnail?id=1cvfei-fvBh_3pbqGughkC4QRFbdy3wje&sz=w1000" },
+  // --- ROW 1 ---
+  // Col 1 - Item 1
+  { id: 1, title: "Dead Inside", category: "Geek", img: "https://drive.google.com/thumbnail?id=1I0_G-iDHvG1zmGdYtzLoFKgmPqWeCrXB&sz=w1000" },
+  // Col 2 - Item 1
+  { id: 7, title: "Kaneki - Tokyo Ghoul", category: "Geek", img: "https://drive.google.com/thumbnail?id=1PV6Pd2gFWw5cWOPPpiQgEngBY2xcThsJ&sz=w1000" },
+  // Col 3 - Item 1
+  { id: 13, title: "Fechamento Oriental", category: "Oriental", img: "https://drive.google.com/thumbnail?id=1i9Usaw3bgT8EwN9opvpRaPpjw9rHWjgf&sz=w1000" },
+  
+  // --- ROW 2 ---
+  // Col 1 - Item 2
+  { id: 2, title: "Suminagashi", category: "Oriental", img: "https://drive.google.com/thumbnail?id=1QB3ycDytvayvbAZFu0K5eIpmX4ajGpS-&sz=w1000" },
+  // Col 2 - Item 2
+  { id: 8, title: "Fullmetal Alchemist", category: "Geek", img: "https://drive.google.com/thumbnail?id=1BejVBi_bLhyAaVncCIWDupoavjWWBenc&sz=w1000" },
+  // Col 3 - Item 2
+  { id: 14, title: "Chrollo X Hisoka", category: "Geek", img: "https://drive.google.com/thumbnail?id=15qMTfKpMYhf1Ldu3qZ5fxOyszpZXv1P8&sz=w1000" },
+
+  // --- ROW 3 ---
+  // Col 1 - Item 3
+  { id: 3, title: "Ghost", category: "Geek", img: "https://drive.google.com/thumbnail?id=1OtUDECPHCq1Vud0lwGZTzmFigmPZDC2f&sz=w1000" },
+  // Col 2 - Item 3
+  { id: 9, title: "Blaidd, the Half-Wolf - Elden Ring", category: "Geek", img: "https://drive.google.com/thumbnail?id=1VuilkB5jsK9pTHK_EuFq9m0Z5nzp60ZA&sz=w1000" },
+  // Col 3 - Item 3
+  { id: 15, title: "Akasa", category: "Geek", img: "https://drive.google.com/thumbnail?id=13nkUOn6cTbQAn9mZIc3bzAnDxIkY2Xie&sz=w1000" },
+
+  // --- ROW 4 ---
+  // Col 1 - Item 4
+  { id: 4, title: "Barba Branca", category: "Geek", img: "https://drive.google.com/thumbnail?id=1-kYwdUyTSabyBnn4QiEL6lnKuZDcXGpI&sz=w1000" },
+  // Col 2 - Item 4
+  { id: 10, title: "Kimetsu no Yaiba", category: "Geek", img: "https://drive.google.com/thumbnail?id=1gVLGLLY635-ZwXDmDZJxznKQPbdi9zyo&sz=w1000" },
+  // Col 3 - Item 4
+  { id: 16, title: "Johan Liebert MONSTER", category: "Geek", img: "https://drive.google.com/thumbnail?id=1O_9tvuXQcK32uG9-byl57wgxKo3qjp6t&sz=w1000" },
+
+  // --- ROW 5 ---
+  // Col 1 - Item 5
+  { id: 5, title: "Gear 5", category: "Geek", img: "https://drive.google.com/thumbnail?id=1kqAC14sVOuPQOueuUZATUbVs7HNXtjFI&sz=w1000" },
+  // Col 2 - Item 5
+  { id: 11, title: "Edward Elric", category: "Geek", img: "https://drive.google.com/thumbnail?id=1bpxOZMWTvVUelt6aVq9aAUedzlrOz9Us&sz=w1000" },
+  // Col 3 - Item 5
+  { id: 17, title: "Isha ARCANE", category: "Geek", img: "https://drive.google.com/thumbnail?id=1cvfei-fvBh_3pbqGughkC4QRFbdy3wje&sz=w1000" },
+
+  // --- ROW 6 (Last items) ---
+  // Col 1 - Item 6
+  { id: 6, title: "Zenitsu", category: "Geek", img: "https://drive.google.com/thumbnail?id=1LSaRQsfybr1nuzv5he21LY1dzZWkhDQk&sz=w1000" },
+  // Col 2 - Item 6
+  { id: 12, title: "Killua Zoldyck", category: "Geek", img: "https://drive.google.com/thumbnail?id=1gUD6xHfKe2apQ6ZxAOB_zTAuDo_ERzSb&sz=w1000" },
 ];
 
 export const CUSTOM_PRODUCTS = [

@@ -3,7 +3,53 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
-    <title>Mikaelian | Mi Tatua</title>
+    <title>Mikaelian | Mi Tatua - Fineline & Blackwork em Salvador</title>
+    
+    <!-- SEO & Metadata (Crucial for Organic Traffic) -->
+    <meta name="description" content="Estúdio de tatuagem em Salvador especializado em Fineline, Blackwork e Tatuagens Geek. Transforme sua história em arte permanente com Mikaelian." />
+    <meta name="keywords" content="tatuagem salvador, tattoo salvador, fineline, blackwork, tatuagem geek, estúdio de tatuagem, mikaelian tattoo, mi tatua" />
+    <meta name="author" content="Mikaelian Tattoo" />
+    <meta name="robots" content="index, follow" />
+
+    <!-- Open Graph / Social Media (WhatsApp, Instagram, Facebook) -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://mitatua.com.br/" />
+    <meta property="og:title" content="Mikaelian | Arte & Tatuagem em Salvador" />
+    <meta property="og:description" content="Especialista em Fineline e Blackwork. Conheça o portfólio e agende sua sessão." />
+    <meta property="og:image" content="https://drive.google.com/thumbnail?id=1Tt-uodV4ILmN8el6LKkSITsdZBbySPf4&sz=w1000" />
+    
+    <!-- MARKETING METRICS PLACEHOLDERS (Replace ID with your actual codes) -->
+    
+    <!-- 1. Google Analytics 4 (GA4) -->
+    <!-- 
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-SEU-CODIGO-AQUI"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-SEU-CODIGO-AQUI');
+    </script> 
+    -->
+
+    <!-- 2. Meta Pixel Code (Facebook Ads) -->
+    <!-- 
+    <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', 'SEU-PIXEL-ID-AQUI');
+    fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=SEU-PIXEL-ID-AQUI&ev=PageView&noscript=1"
+    /></noscript>
+    -->
+
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -20,14 +66,6 @@
         scroll-padding-top: 100px; /* Offset for sticky navbar when clicking links */
       }
       
-      /* Custom Cursor Styles */
-      body {
-        cursor: none;
-      }
-      a, button, input, textarea, .hover-target {
-        cursor: none;
-      }
-
       /* Typography */
       .font-display { font-family: 'Cinzel', serif; }
       .font-script { font-family: 'Italianno', cursive; }
@@ -42,19 +80,29 @@
       .mix-blend-difference {
         mix-blend-mode: difference;
       }
+
+      /* Hide Custom Cursor on Touch Devices via CSS as backup */
+      @media (hover: none) and (pointer: coarse) {
+        body {
+          cursor: auto !important;
+        }
+        .cursor-none {
+          cursor: auto !important;
+        }
+      }
     </style>
-  <script type="importmap">
+<script type="importmap">
 {
   "imports": {
-    "react": "https://aistudiocdn.com/react@^19.2.1",
+    "lucide-react": "https://aistudiocdn.com/lucide-react@^0.555.0",
     "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.1/",
     "react/": "https://aistudiocdn.com/react@^19.2.1/",
-    "gsap": "https://aistudiocdn.com/gsap@^3.13.0",
-    "lucide-react": "https://aistudiocdn.com/lucide-react@^0.555.0",
-    "@react-three/fiber": "https://aistudiocdn.com/@react-three/fiber@^9.4.2",
-    "@react-three/drei": "https://aistudiocdn.com/@react-three/drei@^10.7.7",
+    "react": "https://aistudiocdn.com/react@^19.2.1",
     "three": "https://aistudiocdn.com/three@^0.181.2",
-    "gsap/": "https://aistudiocdn.com/gsap@^3.13.0/"
+    "@react-three/drei": "https://aistudiocdn.com/@react-three/drei@^10.7.7",
+    "@react-three/fiber": "https://aistudiocdn.com/@react-three/fiber@^9.4.2",
+    "gsap/": "https://aistudiocdn.com/gsap@^3.13.0/",
+    "gsap": "https://aistudiocdn.com/gsap@^3.13.0"
   }
 }
 </script>
