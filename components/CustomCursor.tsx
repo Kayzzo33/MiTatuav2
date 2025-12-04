@@ -1,32 +1,24 @@
 import React, { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
-import { COLORS } from '../constants';
 
 const CustomCursor: React.FC = () => {
   const cursorRef = useRef<HTMLDivElement>(null);
-  const followerRef = useRef<HTMLDivElement>(null);
   const [isHovering, setIsHovering] = useState(false);
   const [hoverText, setHoverText] = useState("");
 
   useEffect(() => {
-    const cursor = cursorRef.current;
-    const follower = followerRef.current;
-    
-    if (!cursor || !follower) return;
-
-    const moveCursor = (e: MouseEvent) => {
-      gsap.to(cursor, {
-        x: e.clientX,
-        y: e.clientY,
-        duration: 0.1,
-        ease: "power2.out"
-      });
-      gsap.to(follower, {
-        x: e.clientX,
-        y: e.clientY,
-        duration: 0.5,
-        ease: "power3.out"
-      });
+    const handleMouseMove = (e: MouseEvent) => {
+      const { clientX, clientY } = e;
+      
+      // Direct update for responsiveness
+      if (cursorRef.current) {
+        gsap.to(cursorRef.current, {
+          x: clientX,
+          y: clientY,
+          duration: 0.1,
+          ease: "power2.out"
+        });
+      }
     };
 
     const handleMouseOver = (e: MouseEvent) => {
@@ -41,32 +33,28 @@ const CustomCursor: React.FC = () => {
       }
     };
 
-    window.addEventListener('mousemove', moveCursor);
+    window.addEventListener('mousemove', handleMouseMove);
     window.addEventListener('mouseover', handleMouseOver);
 
     return () => {
-      window.removeEventListener('mousemove', moveCursor);
+      window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('mouseover', handleMouseOver);
     };
   }, []);
 
   return (
-    <>
-      <div 
-        ref={cursorRef} 
-        className="fixed top-0 left-0 w-3 h-3 bg-white rounded-full pointer-events-none z-[9999] mix-blend-difference -translate-x-1/2 -translate-y-1/2"
-      />
-      <div 
-        ref={followerRef}
-        className={`fixed top-0 left-0 border border-white rounded-full pointer-events-none z-[9998] mix-blend-difference -translate-x-1/2 -translate-y-1/2 flex items-center justify-center transition-all duration-300 ease-out ${isHovering ? 'w-20 h-20 bg-white/20 backdrop-blur-sm' : 'w-10 h-10'}`}
-      >
-         {isHovering && hoverText && (
-           <span className="text-[10px] font-bold text-black uppercase tracking-widest animate-pulse">
-             {hoverText}
-           </span>
-         )}
+    <div 
+      ref={cursorRef} 
+      className="fixed top-0 left-0 pointer-events-none z-[9999] -translate-x-1/2 -translate-y-1/2 flex items-center justify-center mix-blend-difference"
+    >
+      <div className={`transition-all duration-300 ${isHovering ? 'scale-100 opacity-100' : 'scale-0 opacity-0'}`}>
+          <span className="text-[10px] font-bold text-black bg-white px-2 py-1 rounded-full uppercase tracking-widest whitespace-nowrap">
+              {hoverText}
+          </span>
       </div>
-    </>
+      <div className={`w-3 h-3 bg-white rounded-full transition-all duration-300 ${isHovering ? 'opacity-0 scale-150' : 'opacity-100 scale-100'}`} />
+      <div className={`absolute w-8 h-8 border border-white rounded-full transition-all duration-300 ${isHovering ? 'scale-150 opacity-100 border-orange-500' : 'scale-0 opacity-0'}`} />
+    </div>
   );
 };
 

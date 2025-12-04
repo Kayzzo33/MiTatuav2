@@ -1,5 +1,6 @@
+
 <!DOCTYPE html>
-<html lang="en" class="bg-[#0a0a0a] text-white antialiased">
+<html lang="pt-BR" class="bg-[#0a0a0a] text-white antialiased">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
@@ -9,24 +10,18 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Inter:wght@300;400;600&family=Italianno&display=swap" rel="stylesheet">
     <style>
-      /* Lenis Recommended Styles */
-      html.lenis, html.lenis body {
+      /* STANDARD NATIVE SCROLLING */
+      html, body {
         height: auto;
-      }
-      .lenis.lenis-smooth {
-        scroll-behavior: auto !important;
-      }
-      .lenis.lenis-smooth [data-lenis-prevent] {
-        overscroll-behavior: contain;
-      }
-      .lenis.lenis-stopped {
-        overflow: hidden;
-      }
-      .lenis.lenis-scrolling iframe {
-        pointer-events: none;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden; /* Prevent horizontal scroll only */
+        scroll-behavior: smooth;
+        scroll-padding-top: 100px; /* Offset for sticky navbar when clicking links */
       }
       
-      /* Custom Cursor Logic */
+      /* Custom Cursor Styles */
       body {
         cursor: none;
       }
@@ -34,21 +29,19 @@
         cursor: none;
       }
 
-      /* Typography Utilities */
+      /* Typography */
       .font-display { font-family: 'Cinzel', serif; }
       .font-script { font-family: 'Italianno', cursive; }
       .font-body { font-family: 'Inter', sans-serif; }
 
-      /* Animation Utilities */
       .text-outline {
         -webkit-text-stroke: 1px rgba(255, 255, 255, 0.3);
         color: transparent;
-        transition: all 0.3s ease;
       }
-      .text-outline:hover {
-        -webkit-text-stroke: 1px #ff6b35;
-        color: rgba(255, 107, 53, 0.1);
-        text-shadow: 0 0 20px rgba(255, 107, 53, 0.5);
+      
+      /* Utilities */
+      .mix-blend-difference {
+        mix-blend-mode: difference;
       }
     </style>
   <script type="importmap">

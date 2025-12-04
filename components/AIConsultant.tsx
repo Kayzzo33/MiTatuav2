@@ -14,7 +14,7 @@ const AIConsultant: React.FC = () => {
     if (!idea) return;
     setLoading(true);
     const concept = await generateTattooConcept(idea, style);
-    setResult(concept || "Could not generate concept.");
+    setResult(concept || "Não foi possível gerar o conceito. Tente novamente.");
     setLoading(false);
   };
 
@@ -25,8 +25,8 @@ const AIConsultant: React.FC = () => {
          <div className="absolute top-0 right-0 w-96 h-96 bg-orange-500/5 rounded-full blur-[100px] pointer-events-none"/>
 
         <div className="container mx-auto px-6 text-center">
-            <h3 className="text-3xl font-display mb-4">Unsure about your next ink?</h3>
-            <p className="text-gray-400 mb-8 max-w-xl mx-auto">Let "Mi AI" muse help you visualize a concept combining your story with my signature styles.</p>
+            <h3 className="text-3xl font-display mb-4">Indeciso sobre sua próxima tattoo?</h3>
+            <p className="text-gray-400 mb-8 max-w-xl mx-auto">Deixe a "Mi AI" ajudar a visualizar um conceito combinando sua história com meus estilos exclusivos.</p>
             
             <button 
                 onClick={() => setIsOpen(true)}
@@ -34,7 +34,7 @@ const AIConsultant: React.FC = () => {
                 data-cursor-text="ASK AI"
             >
                 <Sparkles className="mr-2 w-5 h-5 group-hover:animate-spin" />
-                Consult the Muse
+                Consultar a Musa
             </button>
         </div>
       </div>
@@ -52,25 +52,25 @@ const AIConsultant: React.FC = () => {
 
               <h2 className="text-2xl font-display text-white mb-2 flex items-center">
                 <Sparkles className="text-orange-500 mr-2" /> 
-                AI Concept Generator
+                Gerador de Conceitos IA
               </h2>
-              <p className="text-gray-400 text-sm mb-6">Describe your feeling, memory, or object, and select a style.</p>
+              <p className="text-gray-400 text-sm mb-6">Descreva seu sentimento, memória ou objeto, e selecione um estilo.</p>
 
               <div className="space-y-6">
                 <div>
-                   <label className="block text-xs uppercase tracking-wider text-gray-500 mb-2">Your Idea</label>
+                   <label className="block text-xs uppercase tracking-wider text-gray-500 mb-2">Sua Ideia</label>
                    <textarea 
                      className="w-full bg-zinc-900 border border-zinc-800 rounded-lg p-4 text-white focus:outline-none focus:border-orange-500 transition-colors resize-none h-32 hover-target"
-                     placeholder="e.g., A pocket watch surrounded by cherry blossoms, representing time passing..."
+                     placeholder="Ex: Um relógio de bolso cercado por flores de cerejeira, representando a passagem do tempo..."
                      value={idea}
                      onChange={(e) => setIdea(e.target.value)}
                    />
                 </div>
 
                 <div>
-                    <label className="block text-xs uppercase tracking-wider text-gray-500 mb-2">Style Preference</label>
+                    <label className="block text-xs uppercase tracking-wider text-gray-500 mb-2">Preferência de Estilo</label>
                     <div className="flex gap-4 flex-wrap">
-                        {['Fineline', 'Blackwork', 'Old School', 'Geek/Anime', 'Abstract'].map(s => (
+                        {['Fineline', 'Blackwork', 'Old School', 'Geek/Anime', 'Abstrato'].map(s => (
                             <button
                                 key={s}
                                 onClick={() => setStyle(s)}
@@ -88,12 +88,12 @@ const AIConsultant: React.FC = () => {
                     disabled={loading || !idea}
                     className="w-full py-4 bg-white text-black font-bold uppercase tracking-widest hover:bg-gray-200 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center hover-target"
                 >
-                    {loading ? <Loader2 className="animate-spin mr-2" /> : 'Generate Concept'}
+                    {loading ? <Loader2 className="animate-spin mr-2" /> : 'Gerar Conceito'}
                 </button>
                 
                 {result && (
                     <div className="mt-6 p-6 bg-zinc-900/50 rounded-xl border border-orange-500/20 animate-in fade-in slide-in-from-bottom-4">
-                        <h4 className="font-display text-orange-500 mb-2">The Vision:</h4>
+                        <h4 className="font-display text-orange-500 mb-2">A Visão:</h4>
                         <div className="prose prose-invert prose-sm max-w-none text-gray-300 whitespace-pre-line leading-relaxed">
                             {result}
                         </div>

@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Music, Play, Pause, SkipForward, SkipBack, Volume2 } from 'lucide-react';
+import { Music, Play, Pause, SkipForward, SkipBack } from 'lucide-react';
 import { PLAYLIST, COLORS } from '../constants';
 import gsap from 'gsap';
 
@@ -8,21 +8,71 @@ const MusicPlayer: React.FC = () => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTrackIndex, setCurrentTrackIndex] = useState(0);
   const visualizerRef = useRef<HTMLDivElement>(null);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
 
   const currentTrack = PLAYLIST[currentTrackIndex];
 
-  const togglePlay = () => setIsPlaying(!isPlaying);
-  
+  // Initialize audio only on user interaction to comply with browser autoplay policies
+  const initAudio = () => {
+    if (!audioRef.current) {
+        audioRef.current = new Audio(currentTrack.url);
+        audioRef.current.loop = true;
+        audioRef.current.volume = 0.5;
+        
+        audioRef.current.addEventListener('ended', () => {
+            nextTrack();
+        });
+        
+        audioRef.current.addEventListener('error', (e) => {
+            console.error("Audio error:", e);
+            setIsPlaying(false);
+            alert("Não foi possível reproduzir a música. Tente novamente.");
+        });
+    }
+  };
+
+  const handlePlayToggle = () => {
+    initAudio();
+    if (!audioRef.current) return;
+
+    if (isPlaying) {
+        audioRef.current.pause();
+        setIsPlaying(false);
+    } else {
+        const playPromise = audioRef.current.play();
+        if (playPromise !== undefined) {
+            playPromise.then(() => {
+                setIsPlaying(true);
+            }).catch(error => {
+                console.error("Playback prevented:", error);
+                setIsPlaying(false);
+            });
+        }
+    }
+  };
+
+  const changeTrack = (index: number) => {
+      initAudio();
+      setCurrentTrackIndex(index);
+      if (audioRef.current) {
+          audioRef.current.src = PLAYLIST[index].url;
+          if (isPlaying) {
+             audioRef.current.play().catch(console.error);
+          }
+      }
+  };
+
   const nextTrack = () => {
-    setCurrentTrackIndex((prev) => (prev + 1) % PLAYLIST.length);
-    setIsPlaying(true);
+    const nextIndex = (currentTrackIndex + 1) % PLAYLIST.length;
+    changeTrack(nextIndex);
   };
 
   const prevTrack = () => {
-    setCurrentTrackIndex((prev) => (prev - 1 + PLAYLIST.length) % PLAYLIST.length);
-    setIsPlaying(true);
+    const prevIndex = (currentTrackIndex - 1 + PLAYLIST.length) % PLAYLIST.length;
+    changeTrack(prevIndex);
   };
 
+  // Visualizer Animation
   useEffect(() => {
     if (isPlaying && visualizerRef.current) {
       const bars = visualizerRef.current.children;
@@ -40,7 +90,8 @@ const MusicPlayer: React.FC = () => {
     } else if (visualizerRef.current) {
       gsap.to(visualizerRef.current.children, {
         height: 4,
-        duration: 0.3
+        duration: 0.3,
+        overwrite: true
       });
     }
   }, [isPlaying]);
@@ -50,7 +101,7 @@ const MusicPlayer: React.FC = () => {
       <button 
         onClick={() => setIsOpen(!isOpen)}
         className="w-12 h-12 bg-white/10 backdrop-blur-md rounded-full flex items-center justify-center border border-white/20 hover:bg-white/20 transition-all hover-target"
-        data-cursor-text="MUSIC"
+        data-cursor-text="MÚSICA"
       >
         <div className={`transition-transform duration-[2000ms] ${isPlaying ? 'animate-spin' : ''}`}>
            <Music size={20} color={isPlaying ? COLORS.accent : 'white'} />
@@ -61,7 +112,10 @@ const MusicPlayer: React.FC = () => {
         <div className="flex items-center space-x-4 mb-4">
            <div className="w-12 h-12 bg-zinc-800 rounded overflow-hidden relative group">
               <div className={`absolute inset-0 bg-gradient-to-tr from-zinc-900 to-zinc-700 ${isPlaying ? 'animate-pulse' : ''}`} />
-              <img src={`https://picsum.photos/seed/${currentTrackIndex}/100/100`} alt="Album Art" className="w-full h-full object-cover opacity-60" />
+              {/* Abstract Cover Art */}
+              <div className="w-full h-full bg-zinc-700 flex items-center justify-center">
+                  <Music size={20} className="text-zinc-500" />
+              </div>
            </div>
            <div className="flex-1 min-w-0">
              <h4 className="text-sm font-bold truncate text-white">{currentTrack.title}</h4>
@@ -77,7 +131,7 @@ const MusicPlayer: React.FC = () => {
         <div className="flex items-center justify-between mb-2">
             <button onClick={prevTrack} className="text-gray-400 hover:text-white hover-target"><SkipBack size={18}/></button>
             <button 
-              onClick={togglePlay} 
+              onClick={handlePlayToggle} 
               className="w-10 h-10 rounded-full bg-white text-black flex items-center justify-center hover:scale-105 transition-transform hover-target"
             >
               {isPlaying ? <Pause size={18} fill="black" /> : <Play size={18} fill="black" ml-1 />}
@@ -86,14 +140,14 @@ const MusicPlayer: React.FC = () => {
         </div>
         
         <div className="w-full bg-zinc-800 h-1 rounded-full mt-2 overflow-hidden">
-            <div className={`h-full bg-[${COLORS.accent}] w-1/3`} style={{ backgroundColor: COLORS.accent }}></div>
+            <div className={`h-full bg-[${COLORS.accent}] w-1/3 animate-pulse`} style={{ backgroundColor: COLORS.accent }}></div>
         </div>
         
         <div className="mt-4 pt-4 border-t border-white/10">
-          <p className="text-[10px] text-gray-500 uppercase tracking-widest mb-2">Up Next</p>
+          <p className="text-[10px] text-gray-500 uppercase tracking-widest mb-2">Próximas</p>
           {PLAYLIST.map((track, idx) => (
-             idx !== currentTrackIndex && idx < currentTrackIndex + 2 && (
-               <div key={idx} className="flex justify-between items-center text-xs text-gray-400 py-1 hover:text-white cursor-pointer hover-target" onClick={() => { setCurrentTrackIndex(idx); setIsPlaying(true); }}>
+             idx !== currentTrackIndex && idx < currentTrackIndex + 3 && (
+               <div key={idx} className="flex justify-between items-center text-xs text-gray-400 py-1 hover:text-white cursor-pointer hover-target" onClick={() => changeTrack(idx)}>
                  <span>{track.title}</span>
                  <span>{track.duration}</span>
                </div>

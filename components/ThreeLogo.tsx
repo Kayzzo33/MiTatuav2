@@ -1,51 +1,101 @@
-import React, { useRef } from 'react';
+import React, { useRef, useEffect, ReactNode, Component, ErrorInfo } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { MeshDistortMaterial, Environment, Float } from '@react-three/drei';
+import { Environment, Float, useGLTF } from '@react-three/drei';
 import * as THREE from 'three';
 import { COLORS } from '../constants';
 
-const LogoMesh = () => {
-  const meshRef = useRef<THREE.Mesh>(null);
+// 3D Head Model (Lee Perry Smith) - "O Rosto"
+// Using a reliable CDN for the standard Three.js example model
+const MODEL_URL = 'https://cdn.jsdelivr.net/gh/mrdoob/three.js@master/examples/models/gltf/LeePerrySmith/LeePerrySmith.glb';
 
-  useFrame((state) => {
-    if (meshRef.current) {
-      meshRef.current.rotation.x = state.clock.getElapsedTime() * 0.2;
-      meshRef.current.rotation.y = state.clock.getElapsedTime() * 0.3;
-    }
-  });
+const HeadModel = () => {
+    const { scene } = useGLTF(MODEL_URL);
+    const meshRef = useRef<THREE.Group>(null);
 
-  return (
-    <Float speed={2} rotationIntensity={1} floatIntensity={1}>
-      <mesh ref={meshRef} scale={1.8}>
-        <torusKnotGeometry args={[1, 0.3, 128, 16]} />
-        <MeshDistortMaterial 
-          color={COLORS.accent} 
-          envMapIntensity={1} 
-          clearcoat={1} 
-          clearcoatRoughness={0} 
-          metalness={0.9} 
-          roughness={0.1}
-          distort={0.4}
-          speed={2}
-          wireframe={true} // Tattoos are lines, wireframe fits perfectly
-        />
-      </mesh>
-    </Float>
-  );
+    useFrame((state) => {
+        if (meshRef.current) {
+            // Gentle floating rotation
+            meshRef.current.rotation.y = Math.sin(state.clock.getElapsedTime() * 0.2) * 0.2;
+            meshRef.current.rotation.x = Math.cos(state.clock.getElapsedTime() * 0.2) * 0.05;
+        }
+    });
+
+    // Apply artistic material to the model
+    useEffect(() => {
+        scene.traverse((child) => {
+            if ((child as THREE.Mesh).isMesh) {
+                (child as THREE.Mesh).material = new THREE.MeshStandardMaterial({
+                    color: "#1a1a1a", // Dark graphite look
+                    roughness: 0.2,
+                    metalness: 0.8,
+                });
+            }
+        });
+    }, [scene]);
+
+    return <primitive object={scene} ref={meshRef} scale={0.5} position={[0, 0.5, 0]} />;
 };
+
+// Fallback component in case loading fails (network issues)
+const FallbackShape = () => (
+    <mesh>
+        <torusKnotGeometry args={[1, 0.3, 100, 16]} />
+        <meshStandardMaterial color="#222" roughness={0.2} metalness={0.8} />
+    </mesh>
+);
+
+// Error Boundary to prevent crashes if model fails to load
+interface ErrorBoundaryProps {
+  children?: ReactNode;
+  fallback: ReactNode;
+}
+
+interface ErrorBoundaryState {
+  hasError: boolean;
+}
+
+class ModelErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
+  state: ErrorBoundaryState = { hasError: false };
+
+  static getDerivedStateFromError(error: Error): ErrorBoundaryState {
+    return { hasError: true };
+  }
+
+  componentDidCatch(error: Error, errorInfo: ErrorInfo) {
+    console.error("Three.js model error:", error, errorInfo);
+  }
+
+  render() {
+    if (this.state.hasError) {
+        return this.props.fallback;
+    }
+    return this.props.children;
+  }
+}
 
 const ThreeLogo: React.FC = () => {
   return (
-    <div className="w-full h-full absolute inset-0 pointer-events-none">
-      <Canvas camera={{ position: [0, 0, 6] }}>
+    <div className="w-full h-full absolute inset-0 pointer-events-none z-0">
+      <Canvas camera={{ position: [0, 0, 6], fov: 35 }} gl={{ antialias: true, alpha: true }}>
         <ambientLight intensity={0.5} />
-        <pointLight position={[10, 10, 10]} intensity={1.5} color={COLORS.accent} />
-        <spotLight position={[-10, -10, -10]} angle={0.3} penumbra={1} intensity={1} color="blue" />
-        <LogoMesh />
+        <spotLight position={[10, 10, 10]} angle={0.5} penumbra={1} intensity={5} color={COLORS.accent} />
+        <pointLight position={[-10, -5, -10]} intensity={2} color="#4a9eff" />
+        
+        <Float speed={2} rotationIntensity={0.5} floatIntensity={0.5}>
+             <React.Suspense fallback={<FallbackShape />}>
+                <ModelErrorBoundary fallback={<FallbackShape />}>
+                    <HeadModel />
+                </ModelErrorBoundary>
+             </React.Suspense>
+        </Float>
+        
         <Environment preset="city" />
       </Canvas>
     </div>
   );
 };
+
+// Preload the model to avoid pop-in
+useGLTF.preload(MODEL_URL);
 
 export default ThreeLogo;
