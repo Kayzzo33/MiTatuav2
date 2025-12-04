@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, ReactNode, Component, ErrorInfo } from 'react';
+import React, { useRef, useEffect, ReactNode, ErrorInfo } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { Environment, Float, useGLTF } from '@react-three/drei';
 import * as THREE from 'three';
@@ -54,8 +54,11 @@ interface ErrorBoundaryState {
   hasError: boolean;
 }
 
-class ModelErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
-  state: ErrorBoundaryState = { hasError: false };
+class ModelErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundaryState> {
+  constructor(props: ErrorBoundaryProps) {
+    super(props);
+    this.state = { hasError: false };
+  }
 
   static getDerivedStateFromError(error: Error): ErrorBoundaryState {
     return { hasError: true };
@@ -95,7 +98,7 @@ const ThreeLogo: React.FC = () => {
   );
 };
 
-// Preload the model to avoid pop-in
-useGLTF.preload(MODEL_URL);
+// Removed global preload to prevent blocking execution on some environments
+// useGLTF.preload(MODEL_URL);
 
 export default ThreeLogo;

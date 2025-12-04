@@ -3,10 +3,9 @@ import { GoogleGenAI } from "@google/genai";
 // Function to call Gemini API
 export const generateTattooConcept = async (userIdea: string, style: string) => {
   try {
-    // Initialize Gemini INSIDE the function.
-    // This prevents "process is not defined" or missing API key errors during build time/initial load on Vercel.
-    // The API key must be obtained exclusively from the environment variable process.env.API_KEY.
-    const ai = new GoogleGenAI({ apiKey: process.env.API_KEY || '' });
+    // Initialize Gemini INSIDE the function to prevent build crashes
+    // Using process.env.API_KEY directly as per @google/genai guidelines
+    const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
     
     const model = 'gemini-2.5-flash';
     const prompt = `

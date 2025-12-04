@@ -1,4 +1,3 @@
-
 import React, { useEffect, useRef, useLayoutEffect, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -15,13 +14,20 @@ gsap.registerPlugin(ScrollTrigger);
 // --- Navbar (Cortiz Style) ---
 
 const NavBar: React.FC<{ onOpenProducts: () => void, onOpenMenu: () => void }> = ({ onOpenProducts, onOpenMenu }) => {
+    const scrollToTop = () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
     return (
         <nav className="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-6 md:px-12 py-8 mix-blend-difference text-white pointer-events-none">
             {/* Pointer events auto applied to children so clicks work */}
             
             {/* Left: Logo */}
             <div className="flex-1 flex justify-start pointer-events-auto">
-                <div className="text-xl md:text-2xl font-display font-bold tracking-tighter hover-target cursor-pointer group">
+                <div 
+                    onClick={scrollToTop}
+                    className="text-xl md:text-2xl font-display font-bold tracking-tighter hover-target cursor-pointer group"
+                >
                     MI<span className="font-script text-3xl ml-1 group-hover:text-orange-500 transition-colors">Tatua</span>
                 </div>
             </div>
@@ -418,12 +424,13 @@ const Works = () => {
             <div className="container mx-auto px-6 mb-24">
                 <div className="flex flex-col md:flex-row md:items-end justify-between border-b border-white/10 pb-8 gap-8">
                     <div className="md:max-w-[65%]">
-                         {/* Adjusted text sizing and breaking to prevent overflow */}
-                        <h2 className="text-5xl md:text-7xl lg:text-8xl font-display font-bold text-white uppercase opacity-90 leading-[0.9] break-words hyphens-auto">
+                         {/* Reduced font size for tablet/desktop to prevent overflow of "SELECIONADOS" */}
+                        <h2 className="text-4xl md:text-6xl lg:text-7xl font-display font-bold text-white uppercase opacity-90 leading-[0.9] break-words hyphens-auto w-full">
                             Trabalhos <br className="hidden md:block"/> Selecionados
                         </h2>
                     </div>
-                    <div className="md:text-right md:flex-1 md:max-w-[300px]">
+                    {/* Increased max-width for description on tablets to prevent clipping */}
+                    <div className="md:text-right md:flex-1 md:max-w-[400px]">
                          <p className="text-gray-400">
                             Uma seleção curada de blackwork, fineline e artes geek. Cada design é uma colaboração entre artista e tela.
                          </p>
