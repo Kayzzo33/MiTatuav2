@@ -423,14 +423,14 @@ const Works = () => {
         <section id="works" className="py-32 bg-[#0a0a0a] overflow-hidden">
             <div className="container mx-auto px-6 mb-24">
                 <div className="flex flex-col md:flex-row md:items-end justify-between border-b border-white/10 pb-8 gap-8">
-                    <div className="md:max-w-[65%]">
-                         {/* Responsive font size fix using clamp */}
+                    <div className="md:max-w-[65%] w-full">
+                         {/* Responsive font size fix using clamp to prevent overflow */}
                         <h2 className="text-[clamp(2.5rem,6vw,5rem)] font-display font-bold text-white uppercase opacity-90 leading-[0.9] break-words hyphens-auto w-full">
                             Trabalhos <br className="hidden md:block"/> Selecionados
                         </h2>
                     </div>
-                    {/* Increased max-width for description on tablets to prevent clipping */}
-                    <div className="md:text-right md:flex-1 md:max-w-[400px]">
+                    {/* Increased max-width and adjusted wrapping for description */}
+                    <div className="md:text-right md:flex-1 md:max-w-[400px] w-full">
                          <p className="text-gray-400">
                             Uma seleção curada de blackwork, fineline e artes geek. Cada design é uma colaboração entre artista e tela.
                          </p>
