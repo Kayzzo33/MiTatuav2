@@ -26,7 +26,7 @@ const NavBar: React.FC<{ onOpenProducts: () => void, onOpenMenu: () => void }> =
             <div className="flex-1 flex justify-start pointer-events-auto">
                 <div 
                     onClick={scrollToTop}
-                    className="text-xl md:text-2xl font-display font-bold tracking-tighter hover-target cursor-pointer group"
+                    className="text-xl md:text-2xl font-display font-bold tracking-tighter hover-target cursor-pointer group pointer-events-auto"
                 >
                     MI<span className="font-script text-3xl ml-1 group-hover:text-orange-500 transition-colors">Tatua</span>
                 </div>
@@ -424,8 +424,8 @@ const Works = () => {
             <div className="container mx-auto px-6 mb-24">
                 <div className="flex flex-col md:flex-row md:items-end justify-between border-b border-white/10 pb-8 gap-8">
                     <div className="md:max-w-[65%]">
-                         {/* Reduced font size for tablet/desktop to prevent overflow of "SELECIONADOS" */}
-                        <h2 className="text-4xl md:text-6xl lg:text-7xl font-display font-bold text-white uppercase opacity-90 leading-[0.9] break-words hyphens-auto w-full">
+                         {/* Responsive font size fix using clamp */}
+                        <h2 className="text-[clamp(2.5rem,6vw,5rem)] font-display font-bold text-white uppercase opacity-90 leading-[0.9] break-words hyphens-auto w-full">
                             Trabalhos <br className="hidden md:block"/> Selecionados
                         </h2>
                     </div>

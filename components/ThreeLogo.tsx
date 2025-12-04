@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, ReactNode, ErrorInfo } from 'react';
+import React, { useRef, useEffect, ReactNode, ErrorInfo, Component } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { Environment, Float, useGLTF } from '@react-three/drei';
 import * as THREE from 'three';
@@ -54,11 +54,8 @@ interface ErrorBoundaryState {
   hasError: boolean;
 }
 
-class ModelErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundaryState> {
-  constructor(props: ErrorBoundaryProps) {
-    super(props);
-    this.state = { hasError: false };
-  }
+class ModelErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
+  public state: ErrorBoundaryState = { hasError: false };
 
   static getDerivedStateFromError(error: Error): ErrorBoundaryState {
     return { hasError: true };
